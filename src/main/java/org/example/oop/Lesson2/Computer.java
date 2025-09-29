@@ -1,6 +1,6 @@
 package org.example.oop.Lesson2;
 
-public class Computer { // для классов только public или
+public class Computer { // для классов только public или package-private (default)
 
     private int ssd = 500; // private доступ только внутри класса
     private int ram;
