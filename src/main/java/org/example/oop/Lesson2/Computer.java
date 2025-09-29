@@ -1,34 +1,30 @@
 package org.example.oop.Lesson2;
 
-public class Computer {
+public class Computer { // для классов только public или
 
-    private int ssd = 500;
+    private int ssd = 500; // private доступ только внутри класса
     private int ram;
-
-    Computer() { // объявлен констр
-        System.out.println("Я был создан");
-    }
 
     Computer(int newSsd) { //аргрумент метода в ()
         ssd = newSsd;
     }
 
-    Computer(int newRam, int newSSD) {
+    protected Computer(int newRam, int newSSD) { // protected есть доступ внутри пакета и у наследников
         ram = newRam;
         ssd = newSSD;
     }
 
-    /* Computer(String a) {
-    //}
-    //  Computer(boolean b) {
-    //  }
-       21 и 25 перегруз методов с одинак названием,
-  */
-    public void load() {
+    public Computer() { // объявлен конструктор
+        System.out.println("Я был создан");
+    }
+
+
+    // [модификаторы] returnX name ([params])
+    void load() {
         System.out.println("Я загрузился");
     }
 
-    public void printState() {
+    void printState() {
         System.out.println("Ssd: " + ssd);
         System.out.println("Ram: " + ram);
     }
