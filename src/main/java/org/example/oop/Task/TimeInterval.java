@@ -29,5 +29,6 @@ public class TimeInterval {
     }
     public void print () {
         System.out.println("h " + hours + " m " + minutes + " s " + seconds);
+
     }
 }

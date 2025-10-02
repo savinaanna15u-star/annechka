@@ -12,5 +12,6 @@ public class TimeIntervalRunner {
 
         TimeInterval sumIntervals = timeInterval.sum(timeInterval2);
         sumIntervals.print();
+
     }
 }
