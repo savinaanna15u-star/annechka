@@ -2,11 +2,11 @@ package org.example.zad6;
 
 public class Lesson7and1 {
     public static void main(String[] args) {
-     int [][] x = new int [3][];
-     x[0] = new int [5];
-     x[1] = new int [2];
-     x[2] = new int [7];
-     printArray(x);
+        int[][] x = new int[3][];
+        x[0] = new int[5];
+        x[1] = new int[2];
+        x[2] = new int[1];
+        printArray(x);
     }
 
     private static void test() {

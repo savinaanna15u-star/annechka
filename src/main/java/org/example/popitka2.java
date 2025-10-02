@@ -2,6 +2,7 @@ package org.example;
 
 public class popitka2 {
     public static void main(String[] args) {
+        int a = 5;
         int x = 1234567;
         int result = sum(x);
         System.out.println(result);
