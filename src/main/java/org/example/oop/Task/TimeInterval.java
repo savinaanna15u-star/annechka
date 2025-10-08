@@ -1,10 +1,13 @@
 package org.example.oop.Task;
 
 public class TimeInterval {
+    private static final int SECONDS_IN_MINUTE = 60;
+    private static final int MINUTES_IN_HOUR = 60;
 
     private int seconds;
     private int minutes;
     private int hours;
+
 
     public TimeInterval(int totalSeconds) {
 //        3750
@@ -20,8 +23,12 @@ public class TimeInterval {
         this.hours = hours;
     }
 
+    public int plus(int a, int b) {
+        return a + b;
+    }
+
     public int totalSeconds() {
-        return seconds + minutes * 60 + hours * 60 * 60;
+        return seconds + minutes * SECONDS_IN_MINUTE + hours * SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
     }
 
     public TimeInterval sum (TimeInterval second) {
