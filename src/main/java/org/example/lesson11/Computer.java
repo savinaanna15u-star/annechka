@@ -5,6 +5,7 @@ public class Computer {
     private Ssd ssd; // инкапсуляция - скрытие данных и сложности от пользователя(чел, который работает с классом)
     private Ram ram;
 
+
     {
         System.out.println("init block computer");
     }

@@ -1,5 +1,6 @@
 package org.example.lesson11;
 
+
 public class Ssd {
 
     private int value;
