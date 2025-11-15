@@ -2,6 +2,9 @@ package org.example.lesson11;
 
 public class oopLessonRunner3 {
     public static void main(String[] args) {
+        double value = 2.5;
+        int intValue = (int) value;
+
         Computer laptop = new Laptop(new Ssd(250), new Ram(1024), 2); // Laptop является Computer
         //Этот код допустим потому, что класс Laptop является подклассом (наследником) класса Computer. Это явление
         //называется upcasting (преобразование типа подкласса в суперкласс) и является одной из ключевых концепций полиморфизма
@@ -10,15 +13,23 @@ public class oopLessonRunner3 {
 //        System.out.println();
 
         Computer mobile = new Mobile(new Ssd(125), new Ram(512)); // Mobile является Computer
+
+        Laptop laptop1 = new Laptop(new Ssd(5000), new Ram(10000), 5);
 //        mobile.load();
         loadComputers(laptop, mobile);
-        printInformation(new Computer[] {laptop, mobile});
+        printInformation(new Computer[] {laptop, mobile, laptop1});
     }
 
     public static void printInformation(Computer[] computers){
         for (Computer computer : computers) {
             computer.print();
+            if (computer instanceof Laptop) { // проверяем, ссылается ли computer на объект типа Laptop (или его подкласс)
+                ((Laptop) computer).open(); // приводим ссылку типа Computer к типу Laptop и вызываем метод, доступный только в Laptop.
+//                Laptop laptop = (Laptop) computer;
+//                laptop.open();
 
+            }
+            System.out.println();
         }
     }
 
@@ -35,7 +46,7 @@ public class oopLessonRunner3 {
 
 
 // Порядок вызовов методов:
-// Методы в Java выполняются последовательно, сверху вниз в том порядке, в котором они указаны в коде.
+// Методы в Java выполняются последовательно, сверху вниз в том порядке, в котором они указаны в коде.
 // каждая инструкция выполняется только после завершения предыдущей. Метод не может быть вызван до его объявления
 // в исходном коде — компилятор должен знать о существовании метода, прежде чем его вызывать
 
