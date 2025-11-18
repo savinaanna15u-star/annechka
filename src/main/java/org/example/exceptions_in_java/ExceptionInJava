@@ -1,0 +1,62 @@
+ИСКЛЮЧЕНИЯ В JAVA
+ исключение - событие, когда программа непредвиденно меняет свой код
+
+ обработка исключения - процесс перехватки ошибки и исполнение заранее подготовленного алгоритма
+
+ ИЕРАРХИЯ ИСКЛЮЧЕНИЙ
+
+   Throwable:
+ 1. Error  -  серьезные ошибки системы, JVM (Out of Memory Error нет места в куче, Stack Overflow Error закончилось место в стеке , Assertion Error)
+ 2. Exception  -  обрабатываемые исключения:
+                                             - проверяемые исключ - нужно обработать это исключение (IO Exception, SQL Exception)
+                                             - непровер. искл.  (Null Pointer Exception, Index Out Of Bounds Exception)
+
+ ОБРАБОТАКА ИСКЛЮЧЕНИЙ В JAVA
+ конструкция try - catch (попытайся - отлови)
+ опасный метод - проверяем искл, мы знаем, что нужно обраб. - непровер.искл
+ try { открываем файл
+читаем файл                          - где- то здесь может произойти ошибка
+закрываем файл }
+  catch (IO Exception   e(ошибку присваиваем в переменную е) ) может пройизойти эта ошибка  {
+ System.out.println ("случилась ошибка" + e.getDesp. ) }
+finally
+ throws в сигнатуре метода
+
+ void ... read File () throws IO Exception { } чтобы показать, что здесь может быть ошибка, нужно будет обязательно обработать искл через try - catch
+
+  ЯВНЫЙ ВЫЗОВ ИСКЛЧЕНИЯ
+ throws пров и непров искл
+  if (userAge < 18) {
+      throw new IllegalArguments Exception ("Юзер не достиг возраста 18 лет");
+  } положили программу с исключением
+
+
+  ДЖЕНЕРИКИ В JAVA
+механизм создания универсальных классов, интерфейсов и методов, которые могут работать
+с разными типами данных, сохраняя строгую типизацию на этапе компиляции
+РЕАЛИЗАЦИЯ ДЖЕНЕРИКОВ
+
+class Box < T > {
+       private T t; //
+       public void set(T t) {
+        this.t = t;
+       }
+       public T get() {
+        return this.t
+       }
+       Box < String > boxString = new Box();
+       boxString.set (" яблоко");
+       boxString.get();
+
+       Box <Integer> boxInteger = new Box < > ();
+       boxInteger.set(5);
+       Пример: Java коллекции
+}
+
+public   < T >  void method(T...){
+            Box <T> boxT new ...
+}
+
+T - extends Object
+Zoo <T>
+Zoo < T extends Animal>
