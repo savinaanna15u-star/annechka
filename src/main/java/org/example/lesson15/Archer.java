@@ -1,6 +1,9 @@
 package org.example.lesson15;
 
-public class Archer extends Hero {
+import org.example.lesson18.weapon.RangeWeapon;
+
+public class Archer <T extends RangeWeapon> extends Hero <T> { // класс Archer является параметризированным (generic) классом,
+    // который наследует generic-класс Hero, используя тот же тип-параметр T для обоих классов
 
     private Wolf wolf;
 
