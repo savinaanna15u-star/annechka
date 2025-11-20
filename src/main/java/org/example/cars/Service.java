@@ -12,7 +12,7 @@ public class Service {
 
         StringBuilder stringBuilder = new StringBuilder("Сервис ");
         stringBuilder.append(this.name);
-        stringBuilder.append(" рассчитал стоимость ТО машины модели: ");
+        stringBuilder.append(" рассчитал стоимость ТО машины " + car.getClass().getSimpleName() + " модели: ");
         stringBuilder.append(car.getModel());
         stringBuilder.append(" версии: ");
         stringBuilder.append(car.getVersion());
@@ -23,6 +23,8 @@ public class Service {
         stringBuilder.append(" лошадинных сил ");
         if(car.getEngine().getPower() == 1000){
             stringBuilder.append("стоимость 10.000 руб");
+        } else if(car.getEngine().getPower() == 500){
+            stringBuilder.append("стоимость 5.000 руб");
         }
         System.out.println(stringBuilder);
     }
