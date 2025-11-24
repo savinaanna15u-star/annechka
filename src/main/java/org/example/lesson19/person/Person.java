@@ -1,4 +1,4 @@
-package org.example.lesson19_person;
+package org.example.lesson19.person;
 
 import java.util.Objects;
 
@@ -39,5 +39,14 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName);
+    }
+
+    @Override // для строкового представления объекта
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }
