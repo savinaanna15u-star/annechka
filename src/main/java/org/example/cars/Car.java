@@ -25,7 +25,7 @@ public abstract class Car implements Drivable { // абстракция
     public abstract String getCountryOfOrigin (); // абстракция
 
     public void printCountryOfOrigin(){
-        System.out.println( "Машина из " + getCountryOfOrigin());
+        System.out.println( "Машина " + this.getClass().getSimpleName() + " из " + getCountryOfOrigin());
     }
     public void drive(){
         System.out.println("Машина " + this.getClass().getSimpleName() + " поехала на ТО");

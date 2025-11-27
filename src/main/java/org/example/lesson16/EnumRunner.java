@@ -17,5 +17,4 @@ public class EnumRunner {
         System.out.println(processorType.getDescription());
 
     }
-
 }
