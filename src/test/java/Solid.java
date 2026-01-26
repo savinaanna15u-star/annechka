@@ -95,7 +95,7 @@ public class Solid {
     void test3() {
         UserRepository userRepo = new UserRepository();
         EmailService emailService = new EmailService();
-        User2 user2 = new User2("kroshka.kartoshka@.com");
+        User2 user2 = new User2("kroshka.kartoshka@mail.com");
         user2.setId(2L);
 
         try {
@@ -142,6 +142,7 @@ public class Solid {
     @Test
     public void test4() {
         PaymentProcessor paymentProcessor = new PaymentProcessor();
+        assertEquals(0, paymentProcessor.getAllProcessed().size());
         assertEquals("card payment", paymentProcessor.process("card"));
         assertEquals("paypal payment", paymentProcessor.process("paypal"));
         assertEquals("crypto payment", paymentProcessor.process("crypto"));
@@ -165,20 +166,20 @@ public class Solid {
         }
     }
 
-    class PayPalPayment implements PaymentMethod {
+    static class PayPalPayment implements PaymentMethod {
         @Override
         public String process() {
             return "paypal";
         }
     }
-    class CryptoPayment implements PaymentMethod {
+    static class CryptoPayment implements PaymentMethod {
         @Override
         public String process() {
             return "crypto";
         }
     }
 
-    class PaymentProcessor1 {
+    static class PaymentProcessor1 {
         private List<String> processed = new ArrayList<>();
         public void process(PaymentMethod method) {
             String result = method.process();
@@ -192,6 +193,8 @@ public class Solid {
     @Test
     public void test5() {
         PaymentProcessor1 processor = new PaymentProcessor1();
+
+        assertEquals(0, processor.getAllProcessed().size());
         processor.process(new CardPayment());
         processor.process(new PayPalPayment());
         processor.process(new CryptoPayment());
@@ -219,11 +222,25 @@ public class Solid {
 
     @Test
     public void test6() {
-        List<Bird> birds = Arrays.asList(new Bird(), new Penguin());
-        birds.get(0).fly();
-        assertThrows(RuntimeException.class, () -> birds.get(1).fly());
-        assertTrue(birds.get(1) instanceof Bird);
-        assertTrue(birds.get(1) instanceof Penguin);
+        Bird bird = new Bird();
+        try {
+            bird.fly();
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
+
+        Penguin penguin = new Penguin();
+        try {
+            penguin.fly();
+            fail();
+        } catch (RuntimeException  e){
+            assertEquals("Penguin can't fly", e.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        assertTrue(penguin instanceof Bird, "Penguin should be instance of Bird");
+        assertTrue(penguin instanceof Penguin, "Penguin should be instance of Penguin");
     }
 
 // хороший
@@ -238,14 +255,17 @@ public class Solid {
         }
     }
 
-    static class Penguin1 { /* не implements Flyable */
-    }        //  НЕ летает = другой интерфейс
+    static class Penguin1 {  // не implements Flyable - не летает
+    }
 
-    static class FlyServise{
+    static class FlyService{
         private final List<Flyable> flyers = new ArrayList<>();
-        public void AddFlyers(Flyable flyer){
-            flyers.add(flyer);
+        public void addFlyers(Object obj){
+            if (obj instanceof Flyable){
+                flyers.add((Flyable)obj);
+            }
         }
+
         public void makeFlyersFly() {
             for (Flyable flyer : flyers) {
                 flyer.fly();
@@ -258,15 +278,26 @@ public class Solid {
 
     @Test
     public void test7() { // проасертить что все летающие полетели
-        FlyServise flyServise = new FlyServise();
-        flyServise.AddFlyers(new Sparrow());
-        flyServise.makeFlyersFly();
+        FlyService flyService = new FlyService();
+        assertEquals(0, flyService.getFlyersCount());
 
-        assertEquals(1, flyServise.getFlyersCount());
+        Sparrow sparrow = new Sparrow();
+        flyService.addFlyers(sparrow);
+
         Penguin1 penguin = new Penguin1();
+        flyService.addFlyers(penguin);
+
+        assertTrue(sparrow instanceof Flyable, "sparrow should be fly");
+        assertFalse(penguin instanceof Flyable, "penguin shouldn't be fly");
+
+        flyService.makeFlyersFly();
+
+        assertEquals(1, flyService.getFlyersCount());
+
     }
 
     // ISP (Interface Segregation) — разделение интерфейсов
+    // плохой
     interface Worker {
         void work();
 
@@ -315,7 +346,7 @@ public class Solid {
         workers.forEach(Worker::work);
     }
 
-
+// хороший
     interface Workable {
         void work();
     }
@@ -331,6 +362,7 @@ public class Solid {
         public void work() {
             System.out.println("Human works");
         }
+
         @Override
         public void eat() {
             System.out.println("Human eats");
@@ -349,20 +381,21 @@ public class Solid {
     }
     @Test
     public void test9() { // здесь нужно протеcтить код
-        List<Workable> workers = new ArrayList<>();
-        workers.add(new Human1());
-        workers.add(new Robot1 ());
-        assertEquals(2, workers.size());
-        workers.forEach(Workable::work);
+        Human1 human1 = new Human1();
+        Robot1 robot1 = new Robot1();
 
-        List<Eatable> eatables = new ArrayList<>();
-        eatables.add(new Human1());
-        assertEquals(1, eatables.size());
-        eatables.forEach(Eatable::eat);
-        List<Sleepable> sleppables = new ArrayList<>();
-        sleppables.add(new Human1());
-        assertEquals(1, sleppables.size());
-        sleppables.forEach(Sleepable::sleep);
+        assertTrue(human1 instanceof Workable);
+        assertTrue(human1 instanceof Eatable);
+        assertTrue(human1 instanceof Sleepable);
+
+        assertTrue(robot1 instanceof Workable);
+        assertFalse(robot1 instanceof Eatable);
+        assertFalse(robot1 instanceof Sleepable);
+
+        human1.work();
+        robot1.work();
+        human1.eat();
+        robot1.work();
     }
 
 
@@ -389,10 +422,15 @@ public class Solid {
         Lamp lamp = new Lamp();
         String result = lamp.turnOn();
         assertEquals("IncandescentBulb светит", result);
-        assertTrue(result.contains("IncandescentBulb"));
     }
 
     // хороший
+    static class LEDBulb implements Bulb {
+        @Override
+        public String turnOn() {
+            return "LEDBulb светит";
+        }
+    }
     static class Lamp1 {
         private Bulb bulb;// любой тип лампочки
 
@@ -407,13 +445,11 @@ public class Solid {
     public void test11(){
         Lamp1 lamp1 = new Lamp1(new IncandescentBulb());
         assertEquals("IncandescentBulb светит",  lamp1.turnOn());
-        class LEDBulb implements Bulb{
-            public String turnOn() {
-                return "LEDBulb светит";
-            }
-        }
+
         Lamp1 lamp2 = new Lamp1(new LEDBulb());
         assertEquals("LEDBulb светит",  lamp2.turnOn());
+
+
     }
 }
 
