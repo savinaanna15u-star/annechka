@@ -29,4 +29,20 @@ public class ToiletSingletonTest {
         assertTrue(toilet.isOccupied(), "снова занято");
         assertEquals("мама", toilet.getLastUser());
     }
+
+    @Test
+    public void testSingleton3WithNull(){
+        Toilet toilet = Toilet.getInstance();
+        toilet.flush();
+        toilet.use(null);
+        assertFalse(toilet.isOccupied());
+    }
+
+    @Test
+    public void testSingleton4EmptyString(){
+        Toilet toilet = Toilet.getInstance();
+        toilet.flush();
+        toilet.use("");
+        assertFalse(toilet.isOccupied());
+    }
 }

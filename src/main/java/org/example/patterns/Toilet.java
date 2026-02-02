@@ -18,6 +18,10 @@ public class Toilet {
     }
 
     public void use(String person){
+        if (person == null ||person.trim().isEmpty()){ // trim() - это метод класса String, который удаляет все пробелы в начале и в конце строки
+            System.out.println("некорректное имя");
+            return;
+        }
         if(isOccupied){
             System.out.println("Занято!");
             return;
